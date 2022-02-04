@@ -32,14 +32,12 @@ module.exports = (passport) => {
                 done('Unauthorized', false)
             }
 
-            const user = await User.findById(jwt_payload.id)
+            const user = await User.findById(jwt_payload.id).select("-password")
             if(!user) {
                 return done(null, false)
             } 
 
             return done(null, user)
-
-
         } catch(e) {
             console.log(e)
         }

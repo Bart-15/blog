@@ -2,9 +2,9 @@ const Post =  require('../models/posts');
 require('../database')
 
 const createPost = async (req, res) => {
-    res.send('Hello');
+    console.log(req.user)
 }
 
 module.exports = {
     createPost
-}
+} 

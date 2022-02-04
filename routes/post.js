@@ -8,7 +8,7 @@ const {
 } = require('../controllers/post')
 
 
-router.post('/post', createPost)
+router.post('/post', passport.authenticate('jwt',{ session:false }), createPost)
 
 
 module.exports = router;
