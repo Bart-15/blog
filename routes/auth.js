@@ -9,23 +9,26 @@ const {
 } = require('../controllers/auth');
 
 
-// @POST
-// /signup
+// @route    /signup
+// @desc     register new user
+// @access   Public
+//  Temporary
 router.post('/signup', signup);
 
-
-// @POST
-// /login
+// @route    /login
+// @desc     login user
+// @access   Public
 router.post('/login', login);
 
-
-// @GET
-// /profile
+// @route    /profile
+// @desc     get the profile 
+// @access   Private
 router.get('/profile', passport.authenticate('jwt',  {session:false}), profile);
 
 
-// @POST
-// /logout
+// @route    /logout
+// @desc     logout user
+// @access   Private
 router.post('/logout', passport.authenticate('jwt', {session:false}), logout)
 
 module.exports = router;

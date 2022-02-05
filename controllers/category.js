@@ -1,3 +1,4 @@
+const ObjectId = require('mongoose').Types.ObjectId;
 const Category = require('../models/categories')
 require('../database')
 
@@ -36,11 +37,71 @@ const getCategories = async (req, res) => {
     }
 }
 
-const deleteCategories = async () => {
-    res.send("Listening....")
+const deleteCategories = async (req, res) => {
+    // check if the category/:id is valid
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({message: "Invalid category id"});
+    }
+    try {
+        const category = await Category.findById(req.params.id);
+        if(!category) {
+           return res.status(404).json({message: "Category not found"});
+        }
+
+         await Category.findByIdAndDelete(req.params.id);
+         res.status(200).json({message: "Category deleted successfully."})    
+    }catch(e) {
+        res.satus(500).send("Can't delete categories.")
+    }
 }
+
+const updateCategory = async (req, res) => {
+    const id = req.params.id;
+    const title = req.body.title;
+    // check if the category/:id is valid
+    if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({message: "Invalid category id"});
+    }
+
+    try {
+        if(!title) {
+            return res.status(400).json({message:"Title field is required."})
+        }
+         await Category.findByIdAndUpdate(id, {title:title}, {returnOriginal: false});
+         res.status(200).json({success: true});
+    }catch(e) {
+         res.satus(500).send("Can't update categories");
+    }
+}
+
+const getSingleCategory = async (req, res) => {
+     // check if the category/:id is valid
+     if(!ObjectId.isValid(req.params.id)){
+        return res.status(400).json({message: "Invalid category id"});
+    }
+
+    try {
+        const category = await Category.findById(req.params.id);
+
+        if(!category) {
+            return res.status(404).json({message: "Category not found"});
+        }
+
+        res.status(200).json({
+            success:true, 
+            category
+        })
+
+    }catch(e){
+        res.status(500).json("Can't get category.")
+    }
+}
+
+
 module.exports = {
     createCategory,
     getCategories,
-    deleteCategories
+    deleteCategories,
+    updateCategory,
+    getSingleCategory  
 }

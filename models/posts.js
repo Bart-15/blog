@@ -2,20 +2,34 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
-    user : {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-    },
-    richDescription: {
-        type: String,
-        required: true
-    },
-    name: {
+    author: { 
         type:String,
         required: true
     },
-    isApproved : {
+    title : {
+        type: String,
+        reuired: true
+    },
+    description : {
+        type: String,
+        required: true
+    },
+    richDescription: {
+        type: String,
+        default: ''
+    },
+    image : {
+        type: String,
+        default:''
+    },
+    category : {
+        type: Schema.Types.ObjectId,
+        ref:'categories',
+        required: true
+    },
+    isFeatured : {
         type:Boolean,
+        required: true,
         default: false
     },
     isCreated: {
