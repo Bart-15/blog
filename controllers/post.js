@@ -89,8 +89,6 @@ const updatePost = async (req, res) => {
         return res.status(400).json("Category id not found.")
     }
     
-
-    
     // optional image update
     let imagePath;
     const post = await Post.findById(req.params.id);
@@ -136,10 +134,32 @@ const updatePost = async (req, res) => {
     }
 }
 
+const updateFeatured = async(req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if(!post) {
+            return res.status(404).json({message:"Post not found."})
+        }
+
+        post.isFeatured = !post.isFeatured;
+        await post.save();
+
+        res.status(200).json({
+            success:true,
+            post
+        })
+    }catch(e){
+        res.status(500).json("Can't update post.")
+    }
+}
+
+
 module.exports = {
     createPost,
     getAllPost,
     getAllPost,
     getSinglePost,
-    updatePost  
+    updatePost,
+    updateFeatured  
 } 

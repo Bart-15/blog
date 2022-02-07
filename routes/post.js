@@ -36,8 +36,10 @@ const {
     createPost,
     getAllPost,
     getSinglePost,
-    updatePost
-} = require('../controllers/post')
+    updatePost,
+    updateFeatured
+} = require('../controllers/post');
+const { update } = require('../models/posts');
 
 
 
@@ -65,5 +67,10 @@ router.get('/posts/:id', getSinglePost)
 // @access   Private
 router.patch('/posts/:id', passport.authenticate('jwt', {session:false}),  uploadOptions.single('image'), updatePost)
 
+
+// @route    /posts/featured/:id
+// @desc     update posts isFeatured
+// @access   Private
+router.patch('/posts/featured/:id', passport.authenticate('jwt', {session:false}), updateFeatured)
 
 module.exports = router;

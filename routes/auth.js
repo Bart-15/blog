@@ -5,7 +5,8 @@ const {
     signup,
     login, 
     profile,
-    logout
+    logout,
+    updateProfile
 } = require('../controllers/auth');
 
 
@@ -25,6 +26,10 @@ router.post('/login', login);
 // @access   Private
 router.get('/profile', passport.authenticate('jwt',  {session:false}), profile);
 
+// @route    /profile
+// @desc     update profile info password set to optional; 
+// @access   Private
+router.patch('/profile', passport.authenticate('jwt',  {session:false}), updateProfile);
 
 // @route    /logout
 // @desc     logout user

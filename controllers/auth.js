@@ -3,6 +3,7 @@ const path = require('path');
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { checkout } = require('../routes/post');
 require('../database')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -100,6 +101,40 @@ const profile = async(req, res) => {
     }
 }
 
+const updateProfile = async(req, res) => {
+    try {
+        // find user
+        const user = await User.findById(req.user.id);
+        if(!user) {
+            return res.status(404).json({message:"User not found."});
+        }
+
+         // -> Todo
+
+
+        // let newPassword;
+        // if(!req.body.old_password){
+        //    newPassword = user.password;
+        // } else {
+        //     //check password
+        //     const checkPass = await bcrypt.compare(req.body.old_password, user.password);
+        //     if(!checkPass) {
+        //         return res.status(400).json({
+        //             message:"Password not match"
+        //         })
+        //     }
+            
+        //     newPassword =  await bycrypt.hash(req.body.new_password, 10)
+        // }
+
+        // console.log(newPassword)
+
+
+    }catch(e){
+        res.status(500).send("Can't update user profile.")
+    }
+}
+
 
 const logout = async(req, res) => {
     try {
@@ -126,5 +161,6 @@ module.exports = {
     signup,
     login,
     profile,
-    logout
+    logout,
+    updateProfile
 }
