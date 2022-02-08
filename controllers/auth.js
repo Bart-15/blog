@@ -82,6 +82,7 @@ const login = async(req, res) => {
                     )
                   .status(200).json({
                       success: true,
+                      user:payload,
                       message:"You have logedin."
                   });  
     }catch(e) {
