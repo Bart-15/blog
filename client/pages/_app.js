@@ -1,11 +1,21 @@
+import App from 'next/app'
+import React from 'react'
 import '../styles/globals.css'
-import {AuthProvider} from '../context/AuthContext'
-function MyApp({ Component, pageProps }) {
-  return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
-  )
-}
+import {Provider} from 'react-redux';
+import {createWrapper} from 'next-redux-wrapper'
+import store from '../store/store'
 
-export default MyApp
+
+const MyApp = ({Component, pageProps}) => {
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  )
+};
+
+
+const makeStore = () => store;
+const wrapper = createWrapper(makeStore);
+
+export default  wrapper.withRedux(MyApp);

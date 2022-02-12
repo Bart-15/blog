@@ -78,11 +78,11 @@ const login = async(req, res) => {
         const token = jwt.sign(payload, secret, {expiresIn: 3600});
         res.cookie('jwt', 
                     token, 
-                    {httpOnly: true, secure:false}
-                    )
+                    {sameSite:'strict', httpOnly: true, secure:false, path:'/'}
+                  )
                   .status(200).json({
                       success: true,
-                      user:payload,
+                      token:token,
                       message:"You have logedin."
                   });  
     }catch(e) {
