@@ -1,30 +1,32 @@
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
-import {GET_ERRORS, SET_USER, GET_PROFILE} from './types'
+import {GET_ERRORS, SET_USER, GET_PROFILE, SET_USER_LOADING} from './types'
 
 axios.defaults.withCredentials = true;
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const login = (data) => async dispatch => {
+export const login = (data, router) => async dispatch => {
     try {
-        const res = await axios.post(`${BASE_URL}/login`, data, {withCredentials: true});
-        const {token} = res.data;
-        const decoded = jwt_decode(token)
-        dispatch({
-            type:SET_USER,
-            payload: decoded
-        })
+        dispatch(setUserLoading());
+        const res = await axios.post(`${BASE_URL}/login`, data);
+        router.push('/dashboard')
     } catch (err) {
         dispatch({
             type:GET_ERRORS,
-            payload: err.response
+            payload: err.response.data
         })
     }
 }
 
+const setUserLoading = () => {
+    return {
+        type:SET_USER_LOADING
+    }
+}
 
 export const profile = () => async dispatch => {
     const res = await axios.get(`${BASE_URL}/profile`)
-    console.log(res)
 }
+
+
+

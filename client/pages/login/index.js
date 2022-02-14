@@ -2,14 +2,19 @@ import {useState} from 'react'
 import {Card, Grid, Container, CardContent, TextField, Button} from '@mui/material'
 import {login, profile} from '../../store/actions/authAction'
 import {useDispatch} from 'react-redux';
+import { useRouter } from 'next/router'
+
 
 const Login = () => {
+    const router = useRouter()
+    const dispatch = useDispatch();
+
+
     const [loginForm, setLoginForm] = useState({
         email: '',
         password:''
     })
 
-    const dispatch = useDispatch();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -19,7 +24,7 @@ const Login = () => {
              password: loginForm.password
          }
 
-        dispatch(login(user))
+        dispatch(login(user, router))
         
     }
 
