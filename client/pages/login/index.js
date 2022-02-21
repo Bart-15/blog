@@ -5,17 +5,22 @@ import loginBackground from '../../public/assets/images/blog-login-image.png'
 // import LockOutlinedIcon from '@mui/icons-materials';
 import {login, profile} from '../../store/actions/authAction'
 import {useDispatch} from 'react-redux';
+import { useRouter } from 'next/router'
+
 
 
 const theme = createTheme();
 
 const Login = () => {
+    const router = useRouter()
+    const dispatch = useDispatch();
+
+
     const [loginForm, setLoginForm] = useState({
         email: '',
         password:''
     })
 
-    const dispatch = useDispatch();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -24,7 +29,7 @@ const Login = () => {
              password: loginForm.password
          }
 
-        dispatch(login(user))
+        dispatch(login(user, router))
         
     }
     const handleChange = (e) => {
