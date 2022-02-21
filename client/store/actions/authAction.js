@@ -7,18 +7,33 @@ axios.defaults.withCredentials = true;
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const login = (data) => async dispatch => {
+
     try {
         const res = await axios.post(`${BASE_URL}/login`, data, {withCredentials: true});
-        const {token} = res.data;
-        const decoded = jwt_decode(token)
-        dispatch({
+     
+        const decode = jwt_decode(res.data.token);
+
+
+
+        const user = {
+            id: decode.id,
+            name: decode.name,
+            email: decode.email,
+            iat: decode.iat,
+            exp: decode.exp
+        }
+
+        localStorage.setItem('user', JSON.stringify(user));
+
+        await dispatch({
             type:SET_USER,
-            payload: decoded
+            payload: user
         })
+        router.push('/dashboard')
     } catch (err) {
-        dispatch({
+        await dispatch({
             type:GET_ERRORS,
-            payload: err.response
+            payload: err.response.data
         })
     }
 }
@@ -26,5 +41,8 @@ export const login = (data) => async dispatch => {
 
 export const profile = () => async dispatch => {
     const res = await axios.get(`${BASE_URL}/profile`)
-    console.log(res)
+    await dispatch({
+        type:SET_USER,
+        payload:res.data.user
+    })
 }

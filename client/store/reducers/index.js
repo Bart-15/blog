@@ -3,6 +3,6 @@ import postReducer from "./postReducer";
 import authReducer from "./authReducer";
 
 export default combineReducers({
-    user: authReducer,
+    auth: authReducer,
     post: postReducer
 })

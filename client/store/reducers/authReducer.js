@@ -9,7 +9,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type){
-        case SET_USER:
+        case SET_USER :
             return {
                 ...state,
                 isAuth:!isEmpty(action.payload),

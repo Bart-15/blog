@@ -4,6 +4,7 @@ const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { checkout } = require('../routes/post');
+const validateLoginInput = require('../validation/login')
 require('../database')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -12,10 +13,7 @@ const secret = process.env.SECRET_KEY
 const signup = async(req, res) => {
     const {name, email, password} = req.body;
     try{
-        if(!name || !email || !password) {
-            return res.status(400).json({message:"Check all fields."})
-        }
-
+    
         // check email if existed already
         const checkUser = await User.findOne({email:email});
         if(checkUser) {
@@ -50,20 +48,26 @@ const signup = async(req, res) => {
 
 
 const login = async(req, res) => {
+    const {errors, isValid} = validateLoginInput(req.body);
     try {
+        if(!isValid) {
+            return res.status(400).json(errors);
+        }
         const user = await User.findOne({email:req.body.email});
         // check user
         if(!user) {
+            errors.email = "User not found."
             return res.status(404).json({
-                message:"User not found."
+                errors
             })
         }
 
         // check pass
         const comparePass = await bcrypt.compare(req.body.password, user.password);
         if(!comparePass){
+            errors.password = "Check your email and password."
             return res.status(404).json({
-                message:"Check your email and password."
+                erorrs
             })
         }
 
