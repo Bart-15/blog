@@ -1,4 +1,4 @@
-import {GET_ERRORS, SET_USER, SET_USER_LOADING} from '../actions/types'
+import {GET_ERRORS, SET_USER, SET_USER_LOADING, SET_PROFILE} from '../actions/types'
 import isEmpty from '../../validation/is-empty'
 
 const initialState = {
@@ -21,7 +21,8 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading:true
-            }     
+            }
+            
         default: 
         return state;
     }

@@ -1,12 +1,13 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Avatar, Grid, CssBaseline, Typography, TextField, Button, FormControlLabel, Checkbox, Link, Paper, Box} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import loginBackground from '../../public/assets/images/blog-login-image.png'
-// import LockOutlinedIcon from '@mui/icons-materials';
+import Head from 'next/Head'
+import axios from 'axios';
 import {login, profile} from '../../store/actions/authAction'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useRouter } from 'next/router'
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
 const theme = createTheme();
@@ -14,13 +15,26 @@ const theme = createTheme();
 const Login = () => {
     const router = useRouter()
     const dispatch = useDispatch();
-
-
+    const [auth, setAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [loginForm, setLoginForm] = useState({
         email: '',
         password:''
     })
 
+    useEffect(async() => {
+      try{
+       await axios.get(`${BASE_URL}/isAuth`)
+        setAuth(true)
+        router.push('/dashboard')
+
+      } catch(err){
+        if(err.response.data === 'Unauthorized'){
+          router.push('/login')
+        }
+      }
+
+    }, [])
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -36,16 +50,14 @@ const Login = () => {
         setLoginForm({...loginForm, [e.target.name] : e.target.value})
     }
 
-    const getProfile = () => {
-        dispatch(profile())
-    }
-
-    const handleSubmit  = () => {
-        console.log('hello')
-    }
-
+    // catch all the errors
+    const {email, password} = useSelector(state => state.error)
     return (
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Head>
+            <title>Bart- Login</title>
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -80,6 +92,8 @@ const Login = () => {
             </Typography>
             <Box component="form" noValidate onSubmit={handleLogin} sx={{ mt: 1 }}>
               <TextField
+                error={email ? true : false}
+                helperText={email ? email : ""}
                 margin="normal"
                 required
                 fullWidth
@@ -92,6 +106,8 @@ const Login = () => {
                 autoFocus
               />
               <TextField
+                error={password ? true : false}
+                helperText={password ? password : ""}
                 margin="normal"
                 required
                 fullWidth

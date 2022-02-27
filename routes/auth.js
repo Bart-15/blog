@@ -6,7 +6,8 @@ const {
     login, 
     profile,
     logout,
-    updateProfile
+    updateProfile,
+    isAuth
 } = require('../controllers/auth');
 
 
@@ -35,6 +36,14 @@ router.patch('/profile', passport.authenticate('jwt',  {session:false}), updateP
 // @desc     logout user
 // @access   Private
 router.post('/logout', passport.authenticate('jwt', {session:false}), logout)
+
+// @route    /isAuth
+// @desc     check user authenticated
+// @access   Private
+
+router.get('/isAuth', passport.authenticate('jwt', {session:false}), isAuth)
+
+
 
 module.exports = router;
 
