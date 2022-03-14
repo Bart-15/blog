@@ -37,40 +37,45 @@ const {
     getAllPost,
     getSinglePost,
     updatePost,
-    updateFeatured
+    updateFeatured,
+    deletePost
 } = require('../controllers/post');
 const { update } = require('../models/posts');
-
-
 
 
 // @route    /posts
 // @desc     create post
 // @access   Private
-router.post('/posts', passport.authenticate('jwt',{ session:false }), uploadOptions.single('image'), createPost)
+router.post('/posts', passport.authenticate('jwt',{ session:false }), uploadOptions.single('image'), createPost);
 
 
 // @route    /posts
 // @desc     get all posts
 // @access   Public
-router.get('/posts', getAllPost)
+router.get('/posts', getAllPost);
 
 
 // @route    /posts
 // @desc     get single post
 // @access   Public
-router.get('/posts/:id', getSinglePost)
+router.get('/posts/:id', getSinglePost);
 
 
 // @route    /posts/:id
 // @desc     update posts
 // @access   Private
-router.patch('/posts/:id', passport.authenticate('jwt', {session:false}),  uploadOptions.single('image'), updatePost)
+router.patch('/posts/:id', passport.authenticate('jwt', {session:false}),  uploadOptions.single('image'), updatePost);
 
 
 // @route    /posts/featured/:id
 // @desc     update posts isFeatured
 // @access   Private
-router.patch('/posts/featured/:id', passport.authenticate('jwt', {session:false}), updateFeatured)
+router.patch('/posts/featured/:id', passport.authenticate('jwt', {session:false}), updateFeatured);
+
+
+// @route    /posts/:id
+// @desc     delete Post
+// @access   Private
+router.delete('/posts/:id', passport.authenticate('jwt', {session:false}), deletePost)
 
 module.exports = router;

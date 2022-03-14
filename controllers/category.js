@@ -4,9 +4,11 @@ require('../database')
 
 const createCategory = async(req, res) => {
     try {
+        let errors = {};
         const title = req.body.title;
         if(!title){
-            return res.status(400).json({message:"Title field is required."})
+            errors.title = "Title field is required."
+            return res.status(400).json(errors); 
         }
 
         const newCategory = {title: title};
@@ -15,7 +17,7 @@ const createCategory = async(req, res) => {
         res.status(200).json({success:true, message:"Category created successfully."})
 
     }catch(e) {
-        res.status(500).send("Server Error");
+        res.status(500).send({message: "Server Error"});
     }
 }
 

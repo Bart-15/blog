@@ -154,6 +154,18 @@ const updateFeatured = async(req, res) => {
     }
 }
 
+const deletePost = async(req, res) => {
+    try {
+        await Post.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            success: true,
+            message: "Post deleted successfully."
+        })
+    }catch(e){
+        res.status(500).json("Can't delete post.")
+    }
+}
+
 
 module.exports = {
     createPost,
@@ -161,5 +173,6 @@ module.exports = {
     getAllPost,
     getSinglePost,
     updatePost,
-    updateFeatured  
+    updateFeatured,
+    deletePost  
 } 

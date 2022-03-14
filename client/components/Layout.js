@@ -13,7 +13,7 @@ const Layout = ({children}) => {
     };
     return ( 
         <ThemeProvider theme={mdTheme}>
-            <Box sx={{display: 'flex',}}>
+            <Box sx={{display: 'flex'}}>
                 <CssBaseline />
                 <Navbar open={open} toggleDrawer={toggleDrawer} />
                 <Sidebar open={open} toggleDrawer={toggleDrawer}/>

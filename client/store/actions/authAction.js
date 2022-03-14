@@ -19,17 +19,16 @@ export const login = (data, router) => async dispatch => {
             iat: decode.iat,
             exp: decode.exp
         }
-        // localStorage.setItem('user', JSON.stringify(user));
         dispatch({
             type:SET_USER,
             payload: user
         })
 
         router.push('/dashboard')
-    } catch (err) {
+    } catch (e) {
        dispatch({
            type:GET_ERRORS,
-           payload:err.response.data
+           payload:e.response === undefined ? {} : e.response.data
        })
     }
 }
@@ -47,10 +46,18 @@ export const setUserData = () => {
 }
 
 export const logout =  (router) => async dispatch => {
-    dispatch(setUserLoading());
-    await axios.post(`${BASE_URL}/logout`)
-    dispatch(setUserData())
-    router.push('/login')
+    try{
+        dispatch(setUserLoading());
+        await axios.post(`${BASE_URL}/logout`)
+        dispatch(setUserData())
+        dispatch(router.push('/login'))
+    } catch(e) {
+        dispatch({
+            type:GET_ERRORS,
+            payload: e.response === undefined ? {} : e.response.data
+        })
+    }
+
 }
 
 export const profile = () => async dispatch => {
@@ -60,3 +67,4 @@ export const profile = () => async dispatch => {
         payload:res.data.user
     })
 }
+

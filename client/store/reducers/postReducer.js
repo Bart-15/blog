@@ -1,4 +1,4 @@
-import {POST_LOADING, GET_POSTS} from '../actions/types'
+import {POST_LOADING, GET_POSTS, GET_POST} from '../actions/types'
 
 const initialState = {
     posts:[],
@@ -19,7 +19,13 @@ const postReducer = (state =  initialState, action) => {
                 posts: action.payload,
                 loading: false
             }   
-
+        
+        case GET_POST : 
+            return {
+                ...state,
+                post: action.payload,
+                loading:false,
+        }
         default:
         return state;
     }
