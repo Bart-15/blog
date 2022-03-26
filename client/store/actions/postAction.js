@@ -55,26 +55,3 @@ export const getSinglePost = (id) => async dispatch => {
     }
 }
 
-export const editPost = (id, data, router) => async dispatch => {
-    try{
-        await axios.patch(`${BASE_URL}/posts/${id}`, data)
-        router.push('/posts');
-    }catch(e){
-        dispatch({
-            type:GET_ERRORS,
-            payload: e.response === undefined ? {} : e.response.data
-        })
-    }
-}
-
-export const addPost = (data, router) => async dispatch => {
-    try{
-        await axios.post(`${BASE_URL}/posts`, data);
-        router.push('/posts');
-    }catch(e){
-        dispatch({
-            type:GET_ERRORS,
-            payload: e.response === undefined ? {} : e.response.data
-        })
-    }
-}

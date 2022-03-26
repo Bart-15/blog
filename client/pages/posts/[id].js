@@ -1,81 +1,55 @@
 import {useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
-import {getSinglePost, editPost} from '../../store/actions/postAction';
+import {getSinglePost} from '../../store/actions/postAction';
 import {getCategories} from '../../store/actions/categoryAction';
+import Switch from '@mui/material/Switch';
 import {useDispatch, useSelector} from 'react-redux';
-import {useRouter} from 'next/router'
+import { styled } from '@mui/material/styles';
+import dynamic from 'next/dynamic'
 import Select from '@mui/material/Select';
+import 'react-quill/dist/quill.snow.css'; // ES6
 import {Box, Toolbar, Container, Grid, TextField, MenuItem, Paper, Button, InputLabel, Typography} from '@mui/material';
 import Head from '../../components/Head'
-import Image from 'next/image'
-import { useQuill } from 'react-quilljs';
-import 'quill/dist/quill.snow.css'; // Add css for snow theme
-
 
 const EditPost = ({id, post}) => {
-    const { quill, quillRef } = useQuill();
     const dispatch = useDispatch();
-    const router = useRouter();
-
-
-
+    
+    
     useEffect(() => {
       dispatch(getCategories());
+      dispatch(getSinglePost(id))
     }, [])
-
-
+    
     const [category, setCategory] = useState(post?.category?._id)
     const [file, setFile] = useState("")
-    const [tempImage, setTempImage] = useState("")
     const {categories} = useSelector(state =>  state.category);
-    const [text, setText] = useState(post.richDescription)
-
-    useEffect(() => {
-       if (quill) {
-        quill.clipboard.dangerouslyPasteHTML(`${post.richDescription}`);
-        quill.on('text-change', (delta, oldDelta, source) => {
-        setText(quill.root.innerHTML)
-      });
-    }
-    }, [quill])
+    
     
     const [data, setData] = useState({
       title: post.title,
       author: post.author,
-      description: post.description,
       richDescription: post.richDescription,
+      description: post.description,
     })
 
+    const ReactQuill = dynamic(() => import('react-quill'), { ssr: false} );
 
     const handleChange = (e) => {
       setData({...data, [e.target.name] : e.target.value})
     }
-
-    const handleFileChange = (e) => {
-      let url = URL.createObjectURL(e.target.files[0])
-      setTempImage(url);
-      setFile(e.target.files[0])
-
-
-    }
-
 
 
     const handleUpdate = (e) => {
       e.preventDefault();
 
       const formData = new FormData();
-	  	formData.append('image', file);
-      formData.append('author', data.author);
-      formData.append('title', data.title);
-      formData.append('category', category)
-      formData.append('richDescription', text);
-      formData.append('description', data.description)
 
-      console.log("this is the text", text);
-      dispatch(editPost(id, formData, router));
+	  	formData.append('image', file);
+      console.log(formData.get('image'))
+      console.log(data)
     }
 
+    // console category
         return ( 
         <>
         <Layout>
@@ -155,19 +129,12 @@ const EditPost = ({id, post}) => {
               </Grid>
               <Grid container spacing={2}>
                 <Grid xs={12}  item>
-                <div style={{ width: '100%', height: 300, marginBottom:'50px' }}>
-                  <div ref={quillRef} />
-                </div>
+                  <ReactQuill name="richDescription" value={data.richDescription} onChange={handleChange} />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid xs={12} md={6}  item>
-                  {
-                      tempImage ? 
-                      (<Image src={tempImage} width={400} height={400}></Image>) 
-                      : (<Image src={post.image} width={400} height={400} /> )
-                  }
-                   <input type="file" name="image" onChange={handleFileChange} />
+                   <input type="file" name="image" onChange={(e) => setFile(e.target.files[0])} />
                 </Grid>
               </Grid>
               <Button type="submit" variant="contained">Submit</Button>
@@ -186,6 +153,7 @@ export const getServerSideProps = async({query, props}) => {
      const res = await fetch(`${BASE_URL}/posts/${id}`);
      const data = await res.json();
      
+     console.log(data.post)
      return {
         props : {
             id,

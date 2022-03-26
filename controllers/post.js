@@ -1,23 +1,15 @@
 const Post =  require('../models/posts');
 const Category = require('../models/categories');
-const validatePostInput = require('../validation/post')
 require('../database');
 
 
 const createPost = async (req, res) => {
-    // validate all inputs
-    const {errors, isValid} = validatePostInput(req.body);
-    if(!isValid) {
-        return res.status(400).json(errors);
-    }
-
     //  check category id;
-    
+    let errors = {};
 
     const category = await Category.findById(req.body.category);
     if(!category) {
-        errors.category = "Category not found"
-        return res.status(404).json(errors);
+        return res.status(404).json({message:"Category not found"});
     }
 
     // check image
