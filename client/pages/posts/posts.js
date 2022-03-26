@@ -5,8 +5,8 @@ import moment from 'moment';
 import Link from 'next/Link';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {useDispatch} from 'react-redux'
-import {deletePost} from '../../store/actions/postAction'
+import {useDispatch} from 'react-redux';
+import {deletePost} from '../../store/actions/postAction';
 const Posts = ({posts}) => {
   const dispatch = useDispatch();
 

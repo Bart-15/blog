@@ -13,10 +13,6 @@ const EditCategory = ({category, id}) => {
     const [title, setTitle] = useState(category.title);
     const router = useRouter();
 
-    const goBack =  () => {
-        router.back();
-    }
-
     const handleChange = (e) => {
         setTitle(e.target.value)
     }
@@ -51,9 +47,6 @@ const EditCategory = ({category, id}) => {
         >
         <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Button sx={{ margin: "2px 0px" }} variant="contained" color="error" onClick={goBack}>
-              <ArrowBackIcon />
-            </Button>
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={12} md={12} lg={12}>

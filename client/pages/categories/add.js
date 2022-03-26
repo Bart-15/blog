@@ -2,19 +2,14 @@ import {useState} from 'react'
 import Layout from '../../components/Layout';
 import HeadTitle from '../../components/Head';
 import {useRouter} from 'next/router'
-import {addCat} from '../../../store/actions/categoryAction'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {addCat} from '../../store/actions/categoryAction' 
 import {useDispatch, useSelector} from 'react-redux';
 import {Box, Toolbar, Container, Grid, Paper, Button, TextField, Typography} from '@mui/material';
 const AddCategory = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
-
-    const goBack =  () => {
-        router.back();
-    }
-
+    
     const handleChange = (e) => {
         setTitle(e.target.value)
     }
@@ -45,9 +40,6 @@ const AddCategory = () => {
         >
         <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Button sx={{ margin: "2px 0px" }} variant="contained" color="error" onClick={goBack}>
-              <ArrowBackIcon />
-            </Button>
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={12} md={12} lg={12}>
