@@ -1,18 +1,17 @@
 import {useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
-import {getSinglePost, editPost} from '../../store/actions/postAction';
+import {addPost} from '../../store/actions/postAction';
 import {getCategories} from '../../store/actions/categoryAction';
 import {useDispatch, useSelector} from 'react-redux';
 import {useRouter} from 'next/router'
 import Select from '@mui/material/Select';
 import {Box, Toolbar, Container, Grid, TextField, MenuItem, Paper, Button, InputLabel, Typography} from '@mui/material';
 import Head from '../../components/Head'
-import Image from 'next/image'
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'; // Add css for snow theme
 
 
-const EditPost = ({id, post}) => {
+const AddPost = () => {
     const { quill, quillRef } = useQuill();
     const dispatch = useDispatch();
     const router = useRouter();
@@ -24,15 +23,17 @@ const EditPost = ({id, post}) => {
     }, [])
 
 
-    const [category, setCategory] = useState(post?.category?._id)
+    const [category, setCategory] = useState("")
     const [file, setFile] = useState("")
-    const [tempImage, setTempImage] = useState("")
     const {categories} = useSelector(state =>  state.category);
-    const [text, setText] = useState(post.richDescription)
+    const [text, setText] = useState("")
+
+    const {errors} = useSelector(state =>  state.error);
+
 
     useEffect(() => {
        if (quill) {
-        quill.clipboard.dangerouslyPasteHTML(`${post.richDescription}`);
+        quill.clipboard.dangerouslyPasteHTML("");
         quill.on('text-change', (delta, oldDelta, source) => {
         setText(quill.root.innerHTML)
       });
@@ -40,10 +41,10 @@ const EditPost = ({id, post}) => {
     }, [quill])
     
     const [data, setData] = useState({
-      title: post.title,
-      author: post.author,
-      description: post.description,
-      richDescription: post.richDescription,
+      title: "",
+      author: "",
+      richDescription: "",
+      description: "",
     })
 
 
@@ -51,35 +52,26 @@ const EditPost = ({id, post}) => {
       setData({...data, [e.target.name] : e.target.value})
     }
 
-    const handleFileChange = (e) => {
-      let url = URL.createObjectURL(e.target.files[0])
-      setTempImage(url);
-      setFile(e.target.files[0])
-
-
-    }
-
-
 
     const handleUpdate = (e) => {
       e.preventDefault();
 
       const formData = new FormData();
 	  	formData.append('image', file);
-      formData.append('author', data.author);
-      formData.append('title', data.title);
-      formData.append('category', category)
-      formData.append('richDescription', text);
-      formData.append('description', data.description)
+        formData.append('author', data.author);
+        formData.append('title', data.title);
+        formData.append('category', category)
+        formData.append('richDescription', text);
+        formData.append('description', data.description)
 
-      console.log("this is the text", text);
-      dispatch(editPost(id, formData, router));
+       
+      dispatch(addPost(formData, router));
     }
-
+    
         return ( 
         <>
         <Layout>
-        <Head title="Edit Post"/>
+        <Head title="Add Post"/>
             <Box
               component="main"
               sx={{
@@ -99,6 +91,8 @@ const EditPost = ({id, post}) => {
              <Grid container spacing={2}>
                   <Grid item xs={12} md={4}>
                     <TextField 
+                      error={errors.title ? true : false}
+                      helperText={errors.title ? errors.title : ""}
                       sx={{ width: '100%', margin: '12px 0px'}} 
                       id="outlined-basic"
                       name="title"
@@ -109,6 +103,8 @@ const EditPost = ({id, post}) => {
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <TextField 
+                      error={errors.author ? true : false}   
+                      helperText={errors.author ? errors.author : ""}                
                       sx={{ width: '100%', margin: '12px 0px'}} 
                       id="outlined-basic" 
                       label="Author"
@@ -119,6 +115,8 @@ const EditPost = ({id, post}) => {
                   </Grid>
                   <Grid item xs={12} md={4}>
                   <Select
+                      error={errors.category ? true : false}
+                      helperText={errors.category ? errors.category : ""}
                       autoWidth
                       label="Categories"
                       name="category"
@@ -140,6 +138,8 @@ const EditPost = ({id, post}) => {
               <Grid container spacing={2}>
                   <Grid item  xs={12} md={6}>
                     <TextField
+                    error={errors.description ? true : false}
+                    helperText={errors.description ? errors.description : ""}
                     id="outlined-multiline-static"
                     onChange={handleChange}
                     name="description"
@@ -155,19 +155,21 @@ const EditPost = ({id, post}) => {
               </Grid>
               <Grid container spacing={2}>
                 <Grid xs={12}  item>
-                <div style={{ width: '100%', height: 300, marginBottom:'50px' }}>
                   <div ref={quillRef} />
-                </div>
+                  {/* <ReactQuill  defaultValue={quillValue} onChange={handleQuillChange} /> */}
                 </Grid>
-              </Grid>
+              </Grid> 
+              <br/> 
+              <br />   
               <Grid container spacing={2}>
                 <Grid xs={12} md={6}  item>
-                  {
-                      tempImage ? 
-                      (<Image src={tempImage} width={400} height={400}></Image>) 
-                      : (<Image src={post.image} width={400} height={400} /> )
-                  }
-                   <input type="file" name="image" onChange={handleFileChange} />
+                   <TextField 
+                    error={errors.image ? true : false} 
+                    type="file" 
+                    name="image" 
+                    helperText={errors.image ? errors.image : ""}
+                    onChange={(e) => setFile(e.target.files[0])
+                    } />
                 </Grid>
               </Grid>
               <Button type="submit" variant="contained">Submit</Button>
@@ -178,19 +180,5 @@ const EditPost = ({id, post}) => {
         </>
      );
 }
- 
 
-export const getServerSideProps = async({query, props}) => {
-     const {id} = query;
-     const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-     const res = await fetch(`${BASE_URL}/posts/${id}`);
-     const data = await res.json();
-     
-     return {
-        props : {
-            id,
-            post: data.post    
-        }
-     }
-}
-export default EditPost;
+export default AddPost;
