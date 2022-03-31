@@ -21,7 +21,7 @@ const validatePostInput = (data) =>{
     }
 
     if(isEmpty(data.richDescription)){
-        errors.richDescription = "Ricdescription field is required."
+        errors.richDescription = "Richdescription field is required."
     }
 
     return {

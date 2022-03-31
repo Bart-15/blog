@@ -10,9 +10,12 @@ require('dotenv').config({ path: './.env' })
 const PORT = process.env.PORT || 3000;
 const api = process.env.API
 
+
+// All routes
 const auth = require('./routes/auth');
 const post = require('./routes/post');
-const category = require('./routes/category')
+const category = require('./routes/category');
+const social = require('./routes/social')
 
 app.use('/public/uploads', express.static(path.join(__dirname, '/public/uploads')))
 
@@ -27,6 +30,7 @@ app.use(cors({origin:"http://localhost:3000", credentials:true}));
 app.use(`${api}`, auth);
 app.use(`${api}`, post);
 app.use(`${api}`, category);
+app.use(`${api}`, social)
 
 
 
