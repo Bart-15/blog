@@ -5,10 +5,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CategoryIcon from '@mui/icons-material/Category';
+import PublicIcon from '@mui/icons-material/Public';
 import Link from 'next/Link'
 export const mainListItems = (
   <React.Fragment>
@@ -26,7 +25,7 @@ export const mainListItems = (
       <a>
         <ListItemButton>
           <ListItemIcon>
-            <ShoppingCartIcon />
+            <CategoryIcon />
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItemButton>
@@ -36,9 +35,19 @@ export const mainListItems = (
       <a>
         <ListItemButton>
         <ListItemIcon>
-          <PeopleIcon />
+          <DescriptionIcon />
         </ListItemIcon>
         <ListItemText primary="Posts" />
+      </ListItemButton>
+      </a>
+    </Link>
+    <Link href="/socials">
+      <a>
+        <ListItemButton>
+        <ListItemIcon>
+          <PublicIcon />
+        </ListItemIcon>
+        <ListItemText primary="SocialLinks" />
       </ListItemButton>
       </a>
     </Link>

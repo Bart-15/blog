@@ -5,9 +5,8 @@ const validateSocialInputs = require('../validation/socialLinks')
 const createSocialLinks = async (req, res) => {   
     const {errors, isValid} = validateSocialInputs(req.body);
 
-    if(!isValid){
-       return res.status(400).send(errors)
-    }   
+    if(!isValid) return res.status(400).send(errors);
+    
     try {
         const newSocialLinks = await new Social(req.body);
         await newSocialLinks.save();
@@ -35,12 +34,28 @@ const getSocialLinks = async (req, res) => {
 
 const updateSocialLinks = async (req, res) => {
     try {
-        const socials = await Social.findById(req.params.id);
-        console.log(socials);
+        // const socials = await Social.findById(req.params.id);
+        const {errors, isValid} = validateSocialInputs(req.body);
+        if(!isValid) {
+            return res.status(400).json(errors)
+        }
+
+        const social = await Social.findByIdAndUpdate({_id:req.params.id}, req.body, {returnOriginal: false})
+        if(!social) return res.status(400).json({message:"Can't update"});
+
+        await social.save();
+        res.status(200).json({
+            success:true,
+            message:"Social links updated successfully."
+        })
+
+
     }catch(e){
         res.status(400).json("Can't update social links.");
     }
 }
+
+
 
 module.exports = {
     createSocialLinks,

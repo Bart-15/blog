@@ -50,9 +50,8 @@ const signup = async(req, res) => {
 const login = async(req, res) => {
     const {errors, isValid} = validateLoginInput(req.body);
     try {
-        if(!isValid) {
-            return res.status(400).json(errors);
-        }
+        if(!isValid) return res.status(400).json(errors);
+        
         const user = await User.findOne({email:req.body.email});
         // check user
         if(!user) {
@@ -107,9 +106,8 @@ const updateProfile = async(req, res) => {
     try {
         // find user
         const user = await User.findById(req.user.id);
-        if(!user) {
-            return res.status(404).json({message:"User not found."});
-        }
+        if(!user) return res.status(404).json({message:"User not found."});
+        
 
          // -> Todo
 

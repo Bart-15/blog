@@ -10,9 +10,16 @@ export const SUCCESS = "SUCCESS"
 export const GET_POSTS = "GET_POSTS"
 export const GET_POST = "GET_POST"
 export const POST_LOADING = "POST_LOADING"
+export const POST_ERRORS = "POST_ERRORS"
 
 
 //Categories
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const CATEGORIES_LOADING = "CATEGORIES_LOADING";
 export const GET_CATEGORY = "GET_CATEGORY";
+
+
+// Social links
+export const GET_SOCIALS = "GET_SOCIALS";
+export const SOCIAL_LOADING = "SOCIAL_LOADING";
+export const SOCIAL_ERRORS = "SOCIAL_ERRORS";

@@ -25,10 +25,8 @@ const getCategories = async (req, res) => {
     try {
         const categories = await Category.find({});
 
-        if(categories.length < 0) {
-            return res.status(404).json({message:"No categories to show."})
-        }
-
+        if(categories.length < 0) return res.status(404).json({message:"No categories to show."})
+        
         res.status(200).json({
             success: true,
             categories
@@ -46,9 +44,8 @@ const deleteCategories = async (req, res) => {
     }
     try {
         const category = await Category.findById(req.params.id);
-        if(!category) {
-           return res.status(404).json({message: "Category not found"});
-        }
+        if(!category) return res.status(404).json({message: "Category not found"});
+        
 
          await Category.findByIdAndDelete(req.params.id);
          res.status(200).json({message: "Category deleted successfully."})    
@@ -61,14 +58,12 @@ const updateCategory = async (req, res) => {
     const id = req.params.id;
     const title = req.body.title;
     // check if the category/:id is valid
-    if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).json({message: "Invalid category id"});
-    }
+    if(!ObjectId.isValid(req.params.id)) return res.status(400).json({message: "Invalid category id"});
+    
 
     try {
-        if(!title) {
-            return res.status(400).json({message:"Title field is required."})
-        }
+        if(!title) return res.status(400).json({message:"Title field is required."})
+        
          await Category.findByIdAndUpdate(id, {title:title}, {returnOriginal: false});
          res.status(200).json({success: true});
     }catch(e) {
@@ -78,16 +73,14 @@ const updateCategory = async (req, res) => {
 
 const getSingleCategory = async (req, res) => {
      // check if the category/:id is valid
-     if(!ObjectId.isValid(req.params.id)){
-        return res.status(400).json({message: "Invalid category id"});
-    }
+     if(!ObjectId.isValid(req.params.id)) return res.status(400).json({message: "Invalid category id"});
+    
 
     try {
         const category = await Category.findById(req.params.id);
 
-        if(!category) {
-            return res.status(404).json({message: "Category not found"});
-        }
+        if(!category) return res.status(404).json({message: "Category not found"});
+        
 
         res.status(200).json({
             success:true, 

@@ -1,4 +1,4 @@
-import {GET_POSTS, GET_POST, GET_ERRORS, POST_LOADING} from './types';
+import {GET_POSTS, GET_POST, GET_ERRORS, POST_LOADING, POST_ERRORS} from './types';
 import axios from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -73,8 +73,8 @@ export const addPost = (data, router) => async dispatch => {
         router.push('/posts');
     }catch(e){
         dispatch({
-            type:GET_ERRORS,
-            payload: e.response === undefined ? {} : e.response.data
+            type:POST_ERRORS,
+            payload: e.response.data
         })
     }
 }

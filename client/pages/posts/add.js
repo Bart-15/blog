@@ -28,7 +28,7 @@ const AddPost = () => {
     const {categories} = useSelector(state =>  state.category);
     const [text, setText] = useState("")
 
-    const {errors} = useSelector(state =>  state.error);
+    const {errors} = useSelector(state =>  state.post);
 
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const AddPost = () => {
        
       dispatch(addPost(formData, router));
     }
-    
+    console.log("errors######", errors)
         return ( 
         <>
         <Layout>

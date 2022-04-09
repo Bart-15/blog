@@ -7,13 +7,10 @@ require('../database');
 const createPost = async (req, res) => {
     // validate all inputs
     const {errors, isValid} = validatePostInput(req.body);
-    if(!isValid) {
-        return res.status(400).json(errors);
-    }
-
-    //  check category id;
+    if(!isValid) return res.status(400).json(errors);
     
 
+    //  check category id;
     const category = await Category.findById(req.body.category);
     if(!category) {
         errors.category = "Category not found"
@@ -53,8 +50,6 @@ const createPost = async (req, res) => {
 
 const getAllPost = async (req, res) => {
     let filter = {};
-
-
     try {
         if(req.query.category){
             filter = { category: req.query.category.split(",")}
@@ -70,15 +65,9 @@ const getAllPost = async (req, res) => {
 }
 
 const getSinglePost = async (req, res) => {
-    // if(!ObjectId.isValid(req.params.id)){
-    //     return res.status(400).json({message:"Invalid id"});
-    // }   
     try {
         const post = await Post.findById(req.params.id).populate('category')
-
-        if(!post) {
-            return res.status(404).json({message:"Post not found."})
-        }
+        if(!post) return res.status(404).json({message:"Post not found."}) 
 
         res.status(200).json({
             success: true,
@@ -93,16 +82,14 @@ const getSinglePost = async (req, res) => {
 const updatePost = async (req, res) => {
     // check the category
     const category = await Category.findById(req.body.category);
-    if(!category) {
-        return res.status(400).json("Category id not found.")
-    }
+    if(!category) return res.status(400).json("Category id not found.")
+    
     
     // optional image update
     let imagePath;
     const post = await Post.findById(req.params.id);
-    if(!post) {
-        return res.status(404).json({message:"Post not found"});
-    }
+    if(!post) return res.status(404).json({message:"Post not found"});
+    
 
     if(req.file) {
         const fileName = req.file.filename;
@@ -146,10 +133,8 @@ const updateFeatured = async(req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
-        if(!post) {
-            return res.status(404).json({message:"Post not found."})
-        }
-
+        if(!post) return res.status(404).json({message:"Post not found."})
+        
         post.isFeatured = !post.isFeatured;
         await post.save();
 

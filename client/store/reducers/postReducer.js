@@ -1,9 +1,10 @@
-import {POST_LOADING, GET_POSTS, GET_POST} from '../actions/types'
+import {POST_LOADING, GET_POSTS, GET_POST, POST_ERRORS} from '../actions/types'
 
 const initialState = {
     posts:[],
     post:{},
-    loading: false
+    loading: false,
+    errors:{}
 }
 
 const postReducer = (state =  initialState, action) => {
@@ -11,13 +12,15 @@ const postReducer = (state =  initialState, action) => {
         case POST_LOADING : 
             return {
                 ...state,
-                loading: true
+                loading: true,
+                errors:{}
             }
         case GET_POSTS :
             return {
                 ...state,
                 posts: action.payload,
-                loading: false
+                loading: false,
+                errors:{}
             }   
         
         case GET_POST : 
@@ -25,7 +28,15 @@ const postReducer = (state =  initialState, action) => {
                 ...state,
                 post: action.payload,
                 loading:false,
+                errors:{}
         }
+
+        case POST_ERRORS : 
+            return {
+                ...state,
+                errors: action.payload
+            }
+
         default:
         return state;
     }
