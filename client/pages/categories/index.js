@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import Link from 'next/Link'
+import Link from 'next/link'
 import Layout from '../../components/Layout'
 import { styled } from '@mui/material/styles';
 import {getCategories, deleteCategory} from '../../store/actions/categoryAction'
@@ -9,7 +9,7 @@ import {Box, Toolbar, Container, Grid, Paper, Table, TableBody, TableContainer, 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import Head from 'next/Head'
+import Head from 'next/head'
 import useStyles from './styles';
 import {useSelector, useDispatch} from 'react-redux'
 import moment from 'moment';

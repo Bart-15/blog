@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Avatar, Grid, CssBaseline, Typography, TextField, Button, FormControlLabel, Checkbox, Link, Paper, Box} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Head from '../../components/Head';
 import axios from 'axios';
 import {login, profile} from '../../store/actions/authAction'
 import {useDispatch, useSelector} from 'react-redux';
@@ -52,6 +53,7 @@ const Login = () => {
     const {email, password} = useSelector(state => state.error.errors)
     return (
       <ThemeProvider theme={theme}>
+        <Head title="Login" />
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

@@ -1,12 +1,12 @@
 import {useEffect} from 'react';
-import Layout from '../../components/Layout'
-import Head from '../../components/Head'
+import Layout from '../../components/Layout';
+import Head from '../../components/Head';
 import AddIcon from '@mui/icons-material/Add';
-import {useSelector, useDispatch} from 'react-redux'
-import Posts from './posts'
-import Link from 'next/Link'
-import {getPosts} from '../../store/actions/postAction'
-import {Box, Toolbar, Container, Grid, Paper, Button} from '@mui/material'
+import {useSelector, useDispatch} from 'react-redux';
+import Posts from './posts';
+import Link from 'next/link';
+import {getPosts} from '../../store/actions/postAction';
+import {Box, Toolbar, Container, Grid, Paper, Button} from '@mui/material';
 const Post = () => {
 
   const dispatch = useDispatch();

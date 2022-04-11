@@ -1,4 +1,4 @@
-import { SOCIAL_ERRORS, GET_SOCIALS, SOCIAL_LOADING } from "../actions/types";
+import { SOCIAL_ERRORS, GET_SOCIALS, SOCIAL_LOADING, FEATURED } from "../actions/types";
 
 const initialState = {
     socials: [],
@@ -20,7 +20,8 @@ const socialReducer = (state =  initialState, action) => {
              return {
             ...state,
             socials: action.payload,
-            loading: false
+            loading: false,
+            errors: {}
         }
 
         case SOCIAL_ERRORS : 

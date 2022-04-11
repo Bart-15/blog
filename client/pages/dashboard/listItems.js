@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CategoryIcon from '@mui/icons-material/Category';
 import PublicIcon from '@mui/icons-material/Public';
-import Link from 'next/Link'
+import Link from 'next/link'
 export const mainListItems = (
   <React.Fragment>
     <Link href="/dashboard">

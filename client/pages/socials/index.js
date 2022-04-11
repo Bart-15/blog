@@ -1,7 +1,7 @@
 import Layout from '../../components/Layout';
 import Head from '../../components/Head';
 import {useSelector, useDispatch} from 'react-redux'
-import {getSocials} from '../../store/actions/socialAction'
+import {getSocials, updateSocialLinks} from '../../store/actions/socialAction'
 import {Box, Toolbar, Container, Grid, Paper, Button, Typography, TextField} from '@mui/material'
 import { useEffect, useState } from 'react';
 const Socials = () => {
@@ -10,7 +10,7 @@ const Socials = () => {
       dispatch(getSocials());
     }, [])
 
-    const {socials} = useSelector(state =>  state.social)
+    const {socials, errors} = useSelector(state =>  state.social)
     const [socialForm, setSocialForm] = useState({
       facebook: socials[0]?.facebook ? socials[0]?.facebook : "",
       instagram: socials[0]?.instagram ? socials[0]?.instagram : "",
@@ -29,7 +29,8 @@ const Socials = () => {
 
     const handleUpdate = (e) => {
       e.preventDefault();
-      console.log(socialForm)
+      const id = socials[0]?._id
+      dispatch(updateSocialLinks(id, socialForm));
     }
       return ( 
         <>
@@ -54,7 +55,9 @@ const Socials = () => {
               <Grid item xs={12} md={12} lg={12}>
                 <Typography variant="h4">Social Links</Typography>
                 <form onSubmit={handleUpdate}>
-                <TextField 
+                <TextField
+                  helperText={errors.facebook ? errors.facebook : ""}
+                  error={errors.facebook ? true : false} 
                   sx={{ width: '100%', margin: '12px 0px'}} 
                   id="outlined-basic"
                   value={socialForm.facebook}
@@ -62,7 +65,10 @@ const Socials = () => {
                   name="facebook"
                   label="Facebook"
                   variant="outlined" />
-                  <TextField 
+
+                  <TextField
+                  error={errors.instagram ? true : false}
+                  helperText={errors.instagram ? errors.instagram : ""}  
                   sx={{ width: '100%', margin: '12px 0px'}} 
                   id="outlined-basic"
                   value={socialForm.instagram}
@@ -70,7 +76,10 @@ const Socials = () => {
                   name="instagram"
                   label="Instagram"
                   variant="outlined" />
-                  <TextField 
+
+                  <TextField
+                  error={errors.twitter ? true : false}
+                  helperText={errors.twitter ? errors.twitter : ""}
                   sx={{ width: '100%', margin: '12px 0px'}} 
                   id="outlined-basic"
                   value={socialForm.twitter}
@@ -78,7 +87,10 @@ const Socials = () => {
                   name="twitter"
                   label="Twitter"
                   variant="outlined" />
-                  <TextField 
+
+                  <TextField
+                  error={errors.youtube ? true : false} 
+                  helperText={errors.youtube ? errors.youtube : ""} 
                   sx={{ width: '100%', margin: '12px 0px'}} 
                   id="outlined-basic"
                   value={socialForm.youtube}

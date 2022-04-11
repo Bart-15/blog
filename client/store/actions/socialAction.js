@@ -24,6 +24,18 @@ export const getSocials = () => async (dispatch) => {
 }
 
 
+export const updateSocialLinks = (id, data) => async (dispatch) => {
+    try{
+        await axios.patch(`${BASE_URL}/socials/${id}`, data)
+        dispatch(getSocials());
+    } catch(err) {
+        dispatch({
+            type:SOCIAL_ERRORS,
+            payload:err.response.data
+        })
+    } 
+}
+
 const setSocialLoading = () => {
     return {
         type: SOCIAL_LOADING,

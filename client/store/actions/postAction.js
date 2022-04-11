@@ -78,3 +78,15 @@ export const addPost = (data, router) => async dispatch => {
         })
     }
 }
+
+
+export const toggleIsFeatured = (id) => async dispatch => {
+    try{
+        await axios.patch(`${BASE_URL}/posts/featured/${id}`);
+    }catch(err) {
+        dispatch({
+            type: POST_ERRORS,
+            payload: err.response.data
+        })
+    }
+}

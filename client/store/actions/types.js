@@ -21,5 +21,5 @@ export const GET_CATEGORY = "GET_CATEGORY";
 
 // Social links
 export const GET_SOCIALS = "GET_SOCIALS";
-export const SOCIAL_LOADING = "SOCIAL_LOADING";
-export const SOCIAL_ERRORS = "SOCIAL_ERRORS";
+ export const SOCIAL_ERRORS = "SOCIAL_ERRORS";
+    
