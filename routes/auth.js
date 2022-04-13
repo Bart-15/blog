@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const {
-    signup,
     login, 
     profile,
     logout,
@@ -11,11 +10,7 @@ const {
 } = require('../controllers/auth');
 
 
-// @route    /signup
-// @desc     register new user
-// @access   Public
-//  Temporary
-router.post('/signup', signup);
+
 
 // @route    /login
 // @desc     login user
@@ -40,7 +35,6 @@ router.post('/logout', passport.authenticate('jwt', {session:false}), logout)
 // @route    /isAuth
 // @desc     check user authenticated
 // @access   Private
-
 router.get('/isAuth', passport.authenticate('jwt', {session:false}), isAuth)
 
 

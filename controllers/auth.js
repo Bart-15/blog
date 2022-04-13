@@ -10,41 +10,6 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const secret = process.env.SECRET_KEY
 
-const signup = async(req, res) => {
-    const {name, email, password} = req.body;
-    try{
-    
-        // check email if existed already
-        const checkUser = await User.findOne({email:email});
-        if(checkUser) {
-            return res.status(400).json({
-                message:"Email is already taken."
-            })
-        }
-
-        // hash the password
-        const hashedPass = await bcrypt.hash(password, 10);
-        const image =  gravatar.url(email, {protocol: 'https',s: '200', r: 'pg', d:'mm'})
-
-        const newUser = {
-            name,
-            email,
-            password: hashedPass,
-            image
-        };
-
-        const user = await new User(newUser);
-        await user.save();
-        res.status(200).json({
-            success:true,
-            message:"User created successfully!."
-        })
-
-    }catch(e) {
-        res.status(500).send("Can't create new user.")
-    }
-
-}
 
 
 const login = async(req, res) => {
@@ -171,7 +136,6 @@ const isAuth = async (req, res) => {
 }
 
 module.exports = {
-    signup,
     login,
     profile,
     logout,

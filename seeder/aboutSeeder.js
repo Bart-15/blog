@@ -2,11 +2,16 @@ require('../database')
 const About = require('../models/about')
 const mongoose = require('mongoose');
 
+//Drop first the collection
+About.collection.drop();
+
+
+// create dummy data
 const data = [
     new About(
         {
             titleDescription:"Test the seeder",
-            richDescription:"<p>Hello Bart Tabusao</p>"
+            richDescription:"<p>Hello test about    </p>"
         }
     )
 ]

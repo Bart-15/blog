@@ -2,26 +2,6 @@ const Social = require('../models/social')
 const validateSocialInputs = require('../validation/socialLinks')
 
 
-const createSocialLinks = async (req, res) => {   
-    const {errors, isValid} = validateSocialInputs(req.body);
-
-    if(!isValid) return res.status(400).send(errors);
-    
-    try {
-        const newSocialLinks = await new Social(req.body);
-        await newSocialLinks.save();
-
-        res.status(200).json({
-            message:"Social links created successfully."
-        })
-
-    }catch(e) {
-        res.status(400).json({
-            success:false,
-            error:"Can't create social links"
-        })
-    }
-}
 
 const getSocialLinks = async (req, res) => {
     try {
@@ -58,7 +38,6 @@ const updateSocialLinks = async (req, res) => {
 
 
 module.exports = {
-    createSocialLinks,
     getSocialLinks,
     updateSocialLinks
 }

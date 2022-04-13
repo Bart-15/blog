@@ -4,17 +4,9 @@ const passport = require('passport')
 
 
 const {
-    createSocialLinks,
     getSocialLinks,
     updateSocialLinks
 } = require('../controllers/social')
-
-
-// @route    /social
-// @desc     create social links
-// @access   Private
-router.post('/socials',  passport.authenticate('jwt',  {session:false}), createSocialLinks);
-
 
 
 // @route    /socials
