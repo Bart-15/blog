@@ -92,11 +92,24 @@ const getSingleCategory = async (req, res) => {
     }
 }
 
+const categoryCount = async (req, res) => {
+    try {
+        const count = await Category.estimatedDocumentCount();
+        if(!count) return res.status(400).json({message:"Can't get category count"});
+
+        res.status(200).json({
+            category_count: count
+        })
+    }catch(err) {
+        res.status(500).json({message:"Can't get category count"})
+    }
+}
 
 module.exports = {
     createCategory,
     getCategories,
     deleteCategories,
     updateCategory,
-    getSingleCategory  
+    getSingleCategory,
+    categoryCount  
 }

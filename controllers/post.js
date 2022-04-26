@@ -159,6 +159,32 @@ const deletePost = async(req, res) => {
     }
 }
 
+const countPosts = async (req, res) => {
+    try {
+        const count = await Post.estimatedDocumentCount();
+        if(!count) return res.status(400).json({message:"Can't get document count"})
+
+        res.status(200).json({
+            posts_count : count
+        })
+    } catch(e) {
+        res.status(500).json({message:"Can't get document count"});
+    }
+}
+
+
+const countFeatured = async (req, res) => {
+    try  {
+        const count = await Post.countDocuments({isFeatured: true});
+        if(!count) return res.status(400).json({message:"Can't get document count"})
+
+        res.status(200).json({
+            isFeatured: count
+        })
+    }catch(err) {
+        res.status(500).json({message:"Can't get document count"})
+    }
+}
 
 module.exports = {
     createPost,
@@ -167,5 +193,7 @@ module.exports = {
     getSinglePost,
     updatePost,
     updateFeatured,
-    deletePost  
+    deletePost,
+    countPosts,
+    countFeatured
 } 

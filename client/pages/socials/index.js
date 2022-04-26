@@ -4,13 +4,13 @@ import {useSelector, useDispatch} from 'react-redux'
 import {getSocials, updateSocialLinks} from '../../store/actions/socialAction'
 import {Box, Toolbar, Container, Grid, Paper, Button, Typography, TextField} from '@mui/material'
 import { useEffect, useState } from 'react';
-const Socials = () => {
+const Socials = ({socials}) => {
     const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(getSocials());
-    }, [])
+    // useEffect(() => {
+    //   dispatch(getSocials());
+    // }, [])
 
-    const {socials, errors} = useSelector(state =>  state.social)
+    const { errors } = useSelector(state =>  state.social)
     const [socialForm, setSocialForm] = useState({
       facebook: socials[0]?.facebook ? socials[0]?.facebook : "",
       instagram: socials[0]?.instagram ? socials[0]?.instagram : "",
@@ -108,5 +108,18 @@ const Socials = () => {
         </>
      );
 }
- 
+
+export async function getServerSideProps() {
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const res = await fetch(`${BASE_URL}/socials`);
+  const data = await res.json();
+
+  return {
+    props: {
+      socials: data
+    }
+  }
+}
+
 export default Socials;

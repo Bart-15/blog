@@ -38,7 +38,9 @@ const {
     getSinglePost,
     updatePost,
     updateFeatured,
-    deletePost
+    deletePost,
+    countPosts,
+    countFeatured
 } = require('../controllers/post');
 const { update } = require('../models/posts');
 
@@ -61,6 +63,11 @@ router.get('/posts', getAllPost);
 router.get('/posts/:id', getSinglePost);
 
 
+// @route    /posts/count
+// @desc     count Posts
+// @access   Public
+router.get('/count/posts', countPosts)
+
 // @route    /posts/:id
 // @desc     update posts
 // @access   Private
@@ -78,4 +85,12 @@ router.patch('/posts/featured/:id', passport.authenticate('jwt', {session:false}
 // @access   Private
 router.delete('/posts/:id', passport.authenticate('jwt', {session:false}), deletePost)
 
+
+// @route    /count/posts/isFeatured
+// @desc     count all featured posts
+// @access   Public
+router.get('/count/posts/isFeatured', countFeatured);
+
+
 module.exports = router;
+ 

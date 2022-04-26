@@ -164,8 +164,8 @@ const EditPost = ({id, post}) => {
                 <Grid xs={12} md={6}  item>
                   {
                       tempImage ? 
-                      (<Image src={tempImage} width={400} height={400}></Image>) 
-                      : (<Image src={post.image} width={400} height={400} /> )
+                      (<Image src={tempImage} width={250} height={250}></Image>) 
+                      : (<Image src={post.image} width={250} height={250} /> )
                   }
                    <input type="file" name="image" onChange={handleFileChange} />
                 </Grid>

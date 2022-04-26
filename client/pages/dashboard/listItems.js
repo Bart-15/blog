@@ -2,9 +2,8 @@ import * as React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import InfoIcon from '@mui/icons-material/Info';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CategoryIcon from '@mui/icons-material/Category';
 import PublicIcon from '@mui/icons-material/Public';
@@ -48,6 +47,16 @@ export const mainListItems = (
           <PublicIcon />
         </ListItemIcon>
         <ListItemText primary="SocialLinks" />
+      </ListItemButton>
+      </a>
+    </Link>
+    <Link href="/about">
+      <a>
+        <ListItemButton>
+        <ListItemIcon>
+          <InfoIcon />
+        </ListItemIcon>
+        <ListItemText primary="About Us" />
       </ListItemButton>
       </a>
     </Link>

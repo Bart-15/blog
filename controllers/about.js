@@ -8,7 +8,9 @@ const updateAbout = async (req, res) => {
             error.richDescription = "Richdescription field is required."
             res.status(400).json(error);
         }
-        await About.findByIdAndUpdate(id, {title:title}, {returnOriginal: false});
+        const {titleDescription, richDescription} = req.body;
+        const about =  await About.findByIdAndUpdate({_id:req.params.id}, {titleDescription, richDescription}, {returnOriginal: false});
+        await about.save();
         res.status(200).json({success: true});
 
     } catch (err) {
@@ -17,6 +19,17 @@ const updateAbout = async (req, res) => {
 }
 
 
+const getAbout = async (req, res) => {
+    try{
+       const about = await About.find({});
+       res.status(200).send(about)
+
+    } catch (err) {
+        res.status(500).json({message:"Can't get about'"})
+    }
+}
+
 module.exports = {
-    updateAbout  
+    updateAbout,
+    getAbout  
 }

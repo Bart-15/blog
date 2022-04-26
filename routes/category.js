@@ -8,7 +8,8 @@ const {
     getCategories,
     deleteCategories,
     updateCategory,
-    getSingleCategory
+    getSingleCategory,
+    categoryCount
 }  = require('../controllers/category')
 
 
@@ -38,5 +39,10 @@ router.patch('/categories/:id', passport.authenticate('jwt', {session:false}), u
 // @access   Public
 router.get('/categories/:id', getSingleCategory)
 
+
+// @route    /count/category
+// @desc     count category
+// @access   Public
+router.get('/count/categories', categoryCount)
 
 module.exports = router;
