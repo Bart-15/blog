@@ -13,4 +13,5 @@ https://user-images.githubusercontent.com/73633889/217746952-03de765d-0ec8-4d2d-
 - Protected Routes
 - Custom Validation
 - Redux for state management
+- Public and Private API Routes
 - CRUD
